@@ -2,7 +2,7 @@ terraform {
     required_version = ">= 1.6.0"
   required_providers {
     openstack = {
-      source  = "hashicorp/openstack"
+      source  = "terraform-provider-openstack/openstack"
       version = "~> 3.0"
     }
   }
@@ -18,7 +18,7 @@ resource "openstack_networking_network_v2" "networktest"{
 
 }
 #Sous réseau "public"
-resource "openstack_networking_subnet_v2" "public_subnet1" {
+resource "openstack_networking_subnet_v2" "public_subnet" {
   name = "public-subnet"
   network_id = openstack_networking_network_v2.networktest.id
   cidr = "10.0.0.0/24"
@@ -28,7 +28,7 @@ resource "openstack_networking_subnet_v2" "public_subnet1" {
 #Sous réseau privé
 resource "openstack_networking_subnet_v2" "private_subnet"{
   name = "private-subnet"
-  network_id = openstack_network.networktest.id
+  network_id = openstack_networking_network_v2.networktest.id
   cidr = "10.0.1.0/24"
   ip_version = 4
   
